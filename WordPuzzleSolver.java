@@ -149,8 +149,8 @@ public class WordPuzzleSolver {
 					for (int len = 3; len <= 22; len++) {
 						String gridWord = getWord(i,j,dir,len,grid);
 						if (gridWord != null && dict.contains(gridWord)) {
-							//if (gridWord.length() == len) {
-								count++;
+							System.out.println(gridWord);
+							count++;
 						}
 					}
 				}
