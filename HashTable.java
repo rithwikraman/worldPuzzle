@@ -1,19 +1,9 @@
 package hash;
 
 
-/**
- * Hash Table implementation. Uses linear probing to resolve collisions.
- * @author Mark Floryan
- *
- * @param <K>
- * @param <V>
- */
 public class HashTable<K,V> implements Map<K,V>{
 
-	/* The array of objects and related things */
 	private HashNode<K,V>[] table;
-		
-	/* YOU WILL LIKELY WANT MORE PRIVATE VARIABLES HERE */
 	private static int INITIAL_CAP = 10;
 	private int size;
 	private HashNode<K,V> sentinel; 
@@ -47,18 +37,6 @@ public class HashTable<K,V> implements Map<K,V>{
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
-	public void resizeQuad(int newCapacity) {
-		HashNode<K,V>[] oldTable = this.table;
-		this.table = new HashNode[newCapacity];
-		this.size = 0;
-		for (int i = 0; i < oldTable.length; i++) {
-			if (oldTable[i] != null && oldTable[i] != sentinel) { 
-				this.insert(oldTable[i].getKey(), oldTable[i].getValue());
-			}
-		}
-	}
-	
 	@Override
 	public void insert(K key, V value) {
 		if (this.loadFactor >= 0.75) {
@@ -75,24 +53,6 @@ public class HashTable<K,V> implements Map<K,V>{
 		size++;
 		this.loadFactor = (double) size / (table.length);
 		
-	}
-	
-	public void insertQuad(K key, V value) {
-		if (this.loadFactor >= 0.75) {
-			resizeQuad(this.table.length * 2);
-		}
-		HashNode<K,V> val = new HashNode<K, V>(key,value);
-		int index = Math.abs(key.hashCode()) % this.table.length;
-		int c = 1;
-		while (this.table[index] != null && !(val.equals(this.table[index])) && this.table[index] != sentinel) {
-			index = (index + c*c) % this.table.length; 
-			c++;
-			//collQuad++;
-			//if (index >= this.table.length) {index = 0;}
-		}
-		table[index] = val;
-		size++;
-		this.loadFactor = (double) size / (table.length);
 	}
 	
 	@Override
